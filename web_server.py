@@ -2,7 +2,7 @@ import os
 from flask import Flask, flash, request, redirect, url_for, send_file
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'spreadsheet'
+UPLOAD_FOLDER = './spreadsheet'
 ALLOWED_EXTENSIONS = {'.xls', '.xlsx'}
 
 app = Flask(__name__)
@@ -45,4 +45,3 @@ def get_timetable():
     # returns image 
     image = './timetable/photo.png'
     return send_file(image, mimetype='image/png')
-    
