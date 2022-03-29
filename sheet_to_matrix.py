@@ -11,25 +11,34 @@ import pandas as pd
 import numpy as np 
 import matplotlib.pyplot as plt 
 import imgkit
-import PIL as pil 
+import PIL as pil
+from datetime import datetime as dt
 
 pd.set_option("display.max_rows", 400)
-csv_file = pd.read_csv('CSV_code/07_2018.csv')
-day = 15
-month = np.linspace(1, 30, 30)
+# csv_file = pd.read_csv('CSV_code/07_2018.csv')
+# day = 15
+# month = np.linspace(1, 30, 30)
 
 
-def csv_cleaner(csv_file):
+def csv_cleaner():
     """
     Cleans the csv file
     """
-    dates_df = pd.read_csv('CSV_code/07_2018.csv')
+    # dates_df = pd.read_csv('CSV_code/07_2018.csv')
+    spreadsheet_excel = pd.ExcelFile('spreadsheet/spreadsheet.xlsx')
+    names = spreadsheet_excel.sheet_names
+    this_month = dt.strftime(dt.now(), "%B").upper()
+    this_day = int(dt.strftime(dt.now(), "%-d"))
+    index = [idx for idx, s in enumerate(names) if this_month in s.upper()][0]
+    dates_df = spreadsheet_excel.parse(names[index], header=None)
+    # dates_df = pd.read_excel('spreadsheet/spreadsheet.xlsx')
+
     dates_df.columns = dates_df.iloc[0] 
     dates_df = dates_df.iloc[1: , :]
     dates_df = dates_df.iloc[ : , :-1]
     dates_df = dates_df.fillna(0)
     
-    return dates_df
+    return this_day, dates_df
 
 
 
@@ -41,8 +50,9 @@ def date_selector(day, dates_df):
     """
     
     day = dates_df[day*13:(day*13 + 10)]
-    
-    
+    header = day.iloc[0]
+    day = day[1:]
+    day.columns = header
     return day 
 
 
@@ -127,8 +137,9 @@ def check_opening():
     return open_or_closed_today
 
 
-dates_df = csv_cleaner(csv_file)
+day, dates_df = csv_cleaner()
 date_data = date_selector(day, dates_df)
+print(date_data)
 # web_page_output = np.array(image_from_date(date_data), dtype = float)
 
 img_filepath = './timetable/photo.png'
