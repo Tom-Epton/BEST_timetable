@@ -10,8 +10,11 @@ Created on Thu Feb 10 14:16:35 2022
 import pandas as pd 
 import numpy as np 
 import matplotlib.pyplot as plt 
+import imgkit
+import PIL as pil 
+
 pd.set_option("display.max_rows", 400)
-csv_file = pd.read_csv('07_2018.csv')
+csv_file = pd.read_csv('CSV_code/07_2018.csv')
 day = 15
 month = np.linspace(1, 30, 30)
 
@@ -20,7 +23,7 @@ def csv_cleaner(csv_file):
     """
     Cleans the csv file
     """
-    dates_df = pd.read_csv('07_2018.csv')
+    dates_df = pd.read_csv('CSV_code/07_2018.csv')
     dates_df.columns = dates_df.iloc[0] 
     dates_df = dates_df.iloc[1: , :]
     dates_df = dates_df.iloc[ : , :-1]
@@ -37,7 +40,7 @@ def date_selector(day, dates_df):
     outputs the data for some given day 
     """
     
-    day = np.matrix(dates_df[day*13:(day*13 + 10)])
+    day = dates_df[day*13:(day*13 + 10)]
     
     
     return day 
@@ -90,7 +93,7 @@ def image_from_date(date_data):
     into an image. 
     """
     
-    # problem here 
+    # problem here - array wrong shape 
     # row deletion of lane labels causes problem in re-shape 
     # how to fix? 
     
@@ -126,6 +129,18 @@ def check_opening():
 
 dates_df = csv_cleaner(csv_file)
 date_data = date_selector(day, dates_df)
-web_page_output = np.array(image_from_date(date_data), dtype = float)
+# web_page_output = np.array(image_from_date(date_data), dtype = float)
+
+img_filepath = './timetable/photo.png'
+imgkit.from_string(date_data.to_html(), img_filepath)
+
+
+
+
+
+
+
+
+
 
 
