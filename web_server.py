@@ -29,7 +29,9 @@ def upload_file():
         if file and allowed_file(file.filename):
             # filename = secure_filename(file.filename)
             filename = 'spreadsheet.xlsx'
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print(file_path)
+            file.save(file_path)
             os.system('python3 sheet_to_matrix.py')
             return redirect(url_for('download_file', name=filename))
     return '''
