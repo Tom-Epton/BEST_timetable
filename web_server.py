@@ -3,7 +3,7 @@ from flask import Flask, flash, request, redirect, url_for, send_file
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)),'spreadsheet')
-ALLOWED_EXTENSIONS = {'.xls', '.xlsx'}
+ALLOWED_EXTENSIONS = {'xls', 'xlsx'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
