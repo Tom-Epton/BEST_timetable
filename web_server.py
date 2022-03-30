@@ -33,11 +33,15 @@ def upload_file():
             print(file_path)
             file.save(file_path)
             os.system('python3 sheet_to_matrix.py')
-            return redirect(url_for('download_file', name=filename))
+            return '''
+            <!doctype html>
+            <title>Success</title>
+            <h1>Upload successful</h1>
+            '''
     return '''
     <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
+    <title>Upload Pool timetable spreadsheet</title>
+    <h1>Upload Pool timetable spreadsheet</h1>
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
